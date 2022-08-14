@@ -1,0 +1,55 @@
+﻿@page
+@using Listings.Models
+@model Listings.Pages.BookModel
+@{
+    ViewData["Title"] = "Book List";
+}
+
+<h1>Book List </h1>
+<form method="post" class="card p-3">
+    <div class="row">
+        <div asp-validation-summary="All"></div>
+    </div>
+    <div class="form-group mb-0 align-middle">
+        <label asp-for="NewBook.Title">Title</label>
+        <input type="text" asp-for="NewBook.Title" class="mr-5">
+        <label asp-for="NewBook.Author">Author</label>
+        <input type="text" asp-for="NewBook.Author" class="mr-5">
+        <label asp-for="NewBook.Completed">Completed</label>
+        <input type="checkbox" asp-for="NewBook.Completed" class="mr-5">
+        <button class="btn btn-primary">Add</button>
+    </div>
+</form>
+<table class="table mt-5">
+    <thead>
+        <tr>
+            <th scope="col">Title</th>
+            <th scope="col">Author</th>
+            <th scope="col">Status</th>
+            <th scope="col">Delete</th>
+            <th scope="col">Edit</th>
+        </tr>
+    </thead>
+    @foreach (var book in Model.books)
+    {
+        <tr>
+            <td>@book.Title</td>
+            <td>@book.Author</td>
+            <td>@Model.Completed(book)</td>
+            <td>
+                <form method="post" asp-page-handler="Delete" asp-route-id="@book.Id">
+                    <button class="btn btn-danger">Delete</button>
+                </form>
+            </td>
+            <td>
+                <form method="post" asp-page-handler="Edit" asp-route-id="@book.Id">
+                    <button class="btn btn-danger">Edit</button>
+                </form>
+            </td>
+        </tr>
+    }
+</table>
+
+@section Scripts {
+<partial name="_ValidationScriptsPartial" />
+}
